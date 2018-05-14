@@ -1,0 +1,235 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Flatmate</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.taskie.core</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Flatmate (com.taskie.core)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Flatmate</td>
+<td class="coverageStat">
+  <span class="percent">
+    64.3%
+  </span>
+  <span class="absValue">
+    (9/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (24/ 32)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Flatmate$$DynamicSubclass</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    64.3%
+  </span>
+  <span class="absValue">
+    (9/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (24/ 32)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.taskie.core;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.base.MoreObjects;
+<i>4</i>&nbsp;import com.taskie.api.User;
+<i>5</i>&nbsp;import org.joda.time.DateTime;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.ArrayList;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;import java.util.Objects;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * A user in the context of the application.
+<i>13</i>&nbsp; * &lt;p&gt;
+<i>14</i>&nbsp; * Use {@link Flatmate#create(UserPrincipal, Email, Score)} to create a new flatmate.
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;public class Flatmate {
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    private final UserPrincipal principal;
+<i>19</i>&nbsp;    private final Email email;
+<i>20</i>&nbsp;    private final Score score;
+<i>21</i>&nbsp;    private final List&lt;HolidayAbsence&gt; absences;
+<i>22</i>&nbsp;
+<b class="fc"><i>23</i>&nbsp;    private Flatmate(UserPrincipal principal, Email email, Score score) {</b>
+<b class="fc"><i>24</i>&nbsp;        this.principal = principal;</b>
+<b class="fc"><i>25</i>&nbsp;        this.email = email;</b>
+<b class="fc"><i>26</i>&nbsp;        this.score = score;</b>
+<b class="fc"><i>27</i>&nbsp;        this.absences = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /**
+<i>31</i>&nbsp;     * Creates a new instance of {@link Flatmate}.
+<i>32</i>&nbsp;     *
+<i>33</i>&nbsp;     * @param principal user principal
+<i>34</i>&nbsp;     * @param email     email address
+<i>35</i>&nbsp;     * @param score     user score
+<i>36</i>&nbsp;     * @return new flatmate instance
+<i>37</i>&nbsp;     */
+<i>38</i>&nbsp;    public static Flatmate create(UserPrincipal principal, Email email, Score score) {
+<b class="fc"><i>39</i>&nbsp;        return new Flatmate(principal, email, score);</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * Adds an absence to the user..
+<i>44</i>&nbsp;     *
+<i>45</i>&nbsp;     * @param start from date
+<i>46</i>&nbsp;     * @param end   to date
+<i>47</i>&nbsp;     */
+<i>48</i>&nbsp;    public void updateAbsence(DateTime start, DateTime end) {
+<b class="nc"><i>49</i>&nbsp;        absences.add(new HolidayAbsence(start, end));</b>
+<b class="nc"><i>50</i>&nbsp;    }</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    /**
+<i>53</i>&nbsp;     * Increments the user score.
+<i>54</i>&nbsp;     *
+<i>55</i>&nbsp;     * @param points increment value
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    void incrementScore(int points) {
+<b class="nc"><i>59</i>&nbsp;        score.increment(points);</b>
+<b class="nc"><i>60</i>&nbsp;    }</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    /**
+<i>63</i>&nbsp;     * Decrements the user score.
+<i>64</i>&nbsp;     *
+<i>65</i>&nbsp;     * @param points decrement value
+<i>66</i>&nbsp;     */
+<i>67</i>&nbsp;    void decrementScore(int points) {
+<b class="nc"><i>68</i>&nbsp;        score.decrement(points);</b>
+<b class="nc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    /**
+<i>72</i>&nbsp;     * Check if the user has an absence for the given date.
+<i>73</i>&nbsp;     *
+<i>74</i>&nbsp;     * @param date absence date
+<i>75</i>&nbsp;     * @return {@code true} if the user is absent
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;    boolean isAbsent(DateTime date) {
+<b class="nc"><i>78</i>&nbsp;        return absences.stream().anyMatch(holidayAbsence -&gt; holidayAbsence.matches(date));</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    /**
+<i>82</i>&nbsp;     * @return user id
+<i>83</i>&nbsp;     */
+<i>84</i>&nbsp;    public String getId() {
+<b class="fc"><i>85</i>&nbsp;        return principal.getId();</b>
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /**
+<i>89</i>&nbsp;     * @return user name
+<i>90</i>&nbsp;     */
+<i>91</i>&nbsp;    public String getName() {
+<b class="fc"><i>92</i>&nbsp;        return principal.getName();</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    /**
+<i>96</i>&nbsp;     * @return user email
+<i>97</i>&nbsp;     */
+<i>98</i>&nbsp;    public Email getEmail() {
+<b class="nc"><i>99</i>&nbsp;        return email;</b>
+<i>100</i>&nbsp;    }
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    /**
+<i>103</i>&nbsp;     * @return user principal
+<i>104</i>&nbsp;     */
+<i>105</i>&nbsp;    public UserPrincipal getPrincipal() {
+<b class="fc"><i>106</i>&nbsp;        return principal;</b>
+<i>107</i>&nbsp;    }
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    /**
+<i>110</i>&nbsp;     * Derives the JSON API representation of the current user.
+<i>111</i>&nbsp;     *
+<i>112</i>&nbsp;     * @return JSON API representation
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;    public User deriveUser() {
+<b class="fc"><i>115</i>&nbsp;        return new User(principal.getId(), principal.getName(), score.intValue());</b>
+<i>116</i>&nbsp;    }
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    @Override
+<i>119</i>&nbsp;    public final boolean equals(Object o) {
+<b class="fc"><i>120</i>&nbsp;        if (!(o instanceof Flatmate)) return false;</b>
+<b class="fc"><i>121</i>&nbsp;        Flatmate flatmate = (Flatmate) o;</b>
+<b class="fc"><i>122</i>&nbsp;        return Objects.equals(principal, flatmate.principal) &amp;&amp;</b>
+<b class="fc"><i>123</i>&nbsp;                Objects.equals(email, flatmate.email) &amp;&amp;</b>
+<b class="fc"><i>124</i>&nbsp;                Objects.equals(score, flatmate.score) &amp;&amp;</b>
+<b class="fc"><i>125</i>&nbsp;                Objects.equals(absences, flatmate.absences);</b>
+<i>126</i>&nbsp;    }
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    @Override
+<i>129</i>&nbsp;    public final int hashCode() {
+<b class="fc"><i>130</i>&nbsp;        return Objects.hash(principal, email, score, absences);</b>
+<i>131</i>&nbsp;    }
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    @Override
+<i>134</i>&nbsp;    public String toString() {
+<b class="fc"><i>135</i>&nbsp;        return MoreObjects.toStringHelper(this)</b>
+<b class="fc"><i>136</i>&nbsp;                .add(&quot;principal&quot;, principal)</b>
+<b class="fc"><i>137</i>&nbsp;                .add(&quot;email&quot;, email)</b>
+<b class="fc"><i>138</i>&nbsp;                .add(&quot;score&quot;, score)</b>
+<b class="fc"><i>139</i>&nbsp;                .add(&quot;absences&quot;, absences)</b>
+<b class="fc"><i>140</i>&nbsp;                .toString();</b>
+<i>141</i>&nbsp;    }
+<i>142</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-14 20:59</div>
+</div>
+</body>
+</html>

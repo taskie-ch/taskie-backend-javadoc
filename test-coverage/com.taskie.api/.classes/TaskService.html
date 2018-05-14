@@ -1,0 +1,133 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TaskService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.taskie.api</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TaskService (com.taskie.api)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">TaskService$MockitoMock$1046441382</td>
+  </tr>
+  <tr>
+    <td class="name">TaskService$MockitoMock$1046441382$auxiliary$owtG83mv</td>
+  </tr>
+  <tr>
+    <td class="name">TaskService$MockitoMock$1046441382$auxiliary$PTvMM96z</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.taskie.api;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.taskie.core.Task;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import javax.annotation.Nonnull;
+<i>6</i>&nbsp;import java.util.Collection;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Service for all operations concerning tasks.
+<i>10</i>&nbsp; *
+<i>11</i>&nbsp; * @see com.taskie.db.InMemoryTaskDao
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public interface TaskService {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * Gets all open tasks for a flat.
+<i>17</i>&nbsp;     *
+<i>18</i>&nbsp;     * @param flatId id of the flat
+<i>19</i>&nbsp;     * @return collection of all tasks for a flat
+<i>20</i>&nbsp;     */
+<i>21</i>&nbsp;    @Nonnull
+<i>22</i>&nbsp;    Collection&lt;Task&gt; findAll(long flatId);
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * Gets an existing task for a flat.
+<i>26</i>&nbsp;     *
+<i>27</i>&nbsp;     * @param flatId id of the flat
+<i>28</i>&nbsp;     * @param taskId id of the task
+<i>29</i>&nbsp;     * @return existing task
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    @Nonnull
+<i>32</i>&nbsp;    Task findById(long flatId, long taskId);
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * Saves a new task for a flat.
+<i>36</i>&nbsp;     *
+<i>37</i>&nbsp;     * @param flatId     id of the flat
+<i>38</i>&nbsp;     * @param taskCreate payload for creating a task
+<i>39</i>&nbsp;     * @return newly created task
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    @Nonnull
+<i>42</i>&nbsp;    Task save(long flatId, @Nonnull TaskCreate taskCreate);
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**
+<i>45</i>&nbsp;     * Updates an existing task for a flat.
+<i>46</i>&nbsp;     *
+<i>47</i>&nbsp;     * @param flatId   id of the flat
+<i>48</i>&nbsp;     * @param taskInfo payload of the task
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    void update(long flatId, @Nonnull TaskInfo taskInfo);
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    /**
+<i>53</i>&nbsp;     * Deletes an existing task for a flat.
+<i>54</i>&nbsp;     *
+<i>55</i>&nbsp;     * @param flatId id of the flat
+<i>56</i>&nbsp;     * @param taskId if of the task
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    void delete(long flatId, long taskId);
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    /**
+<i>61</i>&nbsp;     * Marks an existing task as done by a user in a flat.
+<i>62</i>&nbsp;     *
+<i>63</i>&nbsp;     * @param flatId id of the flat
+<i>64</i>&nbsp;     * @param taskId id of the task
+<i>65</i>&nbsp;     * @param userId id of the user that completed the task
+<i>66</i>&nbsp;     */
+<i>67</i>&nbsp;    void complete(long flatId, long taskId, @Nonnull String userId);
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    /**
+<i>70</i>&nbsp;     * Skips an existing task for a user in a flat.
+<i>71</i>&nbsp;     *
+<i>72</i>&nbsp;     * @param flatId id of the flat
+<i>73</i>&nbsp;     * @param taskId id of the task
+<i>74</i>&nbsp;     * @param userId if of the user that skipped the task
+<i>75</i>&nbsp;     */
+<i>76</i>&nbsp;    void skip(long flatId, long taskId, @Nonnull String userId);
+<i>77</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-14 20:59</div>
+</div>
+</body>
+</html>

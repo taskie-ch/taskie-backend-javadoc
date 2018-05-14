@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LoginResource</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.taskie.resources</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LoginResource (com.taskie.resources)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LoginResource</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/ 12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.taskie.resources;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;import com.codahale.metrics.annotation.Timed;
+<i>5</i>&nbsp;import com.taskie.api.FlatService;
+<i>6</i>&nbsp;import com.taskie.api.User;
+<i>7</i>&nbsp;import com.taskie.core.Flatmate;
+<i>8</i>&nbsp;import io.dropwizard.jersey.params.LongParam;
+<i>9</i>&nbsp;import io.swagger.annotations.Api;
+<i>10</i>&nbsp;import io.swagger.annotations.ApiOperation;
+<i>11</i>&nbsp;import org.slf4j.Logger;
+<i>12</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import javax.annotation.Nonnull;
+<i>15</i>&nbsp;import javax.annotation.security.PermitAll;
+<i>16</i>&nbsp;import javax.ws.rs.POST;
+<i>17</i>&nbsp;import javax.ws.rs.Path;
+<i>18</i>&nbsp;import javax.ws.rs.PathParam;
+<i>19</i>&nbsp;import javax.ws.rs.Produces;
+<i>20</i>&nbsp;import javax.ws.rs.core.Context;
+<i>21</i>&nbsp;import javax.ws.rs.core.MediaType;
+<i>22</i>&nbsp;import javax.ws.rs.core.SecurityContext;
+<i>23</i>&nbsp;import java.security.Principal;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;import static com.taskie.resources.ResourcePath.*;
+<i>26</i>&nbsp;import static java.util.Objects.requireNonNull;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;/**
+<i>29</i>&nbsp; * Endpoint handling login requests.
+<i>30</i>&nbsp; */
+<i>31</i>&nbsp;@Path(FLATS)
+<i>32</i>&nbsp;@Api(value = &quot;auth&quot;)
+<i>33</i>&nbsp;@Produces(MediaType.APPLICATION_JSON)
+<i>34</i>&nbsp;public class LoginResource {
+<i>35</i>&nbsp;
+<b class="fc"><i>36</i>&nbsp;    private static final Logger LOG = LoggerFactory.getLogger(LoginResource.class);</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * Provides flat and user data.
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    private final FlatService flatService;
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * Creates an endpoint for login requests.
+<i>45</i>&nbsp;     *
+<i>46</i>&nbsp;     * @param flatService flat service
+<i>47</i>&nbsp;     */
+<b class="fc"><i>48</i>&nbsp;    public LoginResource(@Nonnull FlatService flatService) {</b>
+<b class="fc"><i>49</i>&nbsp;        this.flatService = requireNonNull(flatService, &quot;FlatService is required&quot;);</b>
+<b class="fc"><i>50</i>&nbsp;    }</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    /**
+<i>53</i>&nbsp;     * Authenticates a requesting user to access the application.
+<i>54</i>&nbsp;     *
+<i>55</i>&nbsp;     * @param flatId  id of the flat
+<i>56</i>&nbsp;     * @param context security context provided by the authentication module
+<i>57</i>&nbsp;     * @return user payload
+<i>58</i>&nbsp;     * @throws IllegalStateException    if the user for the given name was not found in the system
+<i>59</i>&nbsp;     * @throws IllegalArgumentException if the requesting user is not permitted
+<i>60</i>&nbsp;     */
+<i>61</i>&nbsp;    @POST
+<i>62</i>&nbsp;    @Timed
+<i>63</i>&nbsp;    @PermitAll
+<i>64</i>&nbsp;    @Path(LOGIN)
+<i>65</i>&nbsp;    @ApiOperation(value = &quot;Authenticate with the service&quot;)
+<i>66</i>&nbsp;    public User authenticate(@PathParam(FLAT_ID) LongParam flatId, @Context SecurityContext context) {
+<b class="fc"><i>67</i>&nbsp;        final String name = requireAuthenticated(context.getUserPrincipal()).getName();</b>
+<b class="fc"><i>68</i>&nbsp;        LOG.info(&quot;{} requested login for flat {}&quot;, name, flatId);</b>
+<b class="fc"><i>69</i>&nbsp;        return flatService.findById(flatId.get()).findUserByName(name).map(Flatmate::deriveUser).</b>
+<b class="fc"><i>70</i>&nbsp;                &lt;IllegalStateException&gt;orElseThrow(() -&gt; {</b>
+<b class="fc"><i>71</i>&nbsp;                    throw new IllegalStateException(&quot;Could not find user for name &quot; + name);</b>
+<i>72</i>&nbsp;                });
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    private static Principal requireAuthenticated(Principal principal) {
+<b class="fc"><i>76</i>&nbsp;        if (principal == null) {</b>
+<b class="fc"><i>77</i>&nbsp;            throw new IllegalArgumentException(&quot;User not permitted&quot;);</b>
+<i>78</i>&nbsp;        }
+<b class="fc"><i>79</i>&nbsp;        return principal;</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-14 20:59</div>
+</div>
+</body>
+</html>

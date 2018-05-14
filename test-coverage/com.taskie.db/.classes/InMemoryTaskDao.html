@@ -1,0 +1,285 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: InMemoryTaskDao</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.taskie.db</a> ]
+</div>
+
+<h1>Coverage Summary for Class: InMemoryTaskDao (com.taskie.db)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InMemoryTaskDao</td>
+<td class="coverageStat">
+  <span class="percent">
+    53.8%
+  </span>
+  <span class="absValue">
+    (7/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (32/ 48)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">InMemoryTaskDao$MockitoMock$402983823</td>
+  </tr>
+  <tr>
+    <td class="name">InMemoryTaskDao$MockitoMock$402983823$auxiliary$bhDRQxGv</td>
+  </tr>
+  <tr>
+    <td class="name">InMemoryTaskDao$MockitoMock$402983823$auxiliary$BY9o4HMU</td>
+  </tr>
+  <tr>
+    <td class="name">InMemoryTaskDao$MockitoMock$402983823$auxiliary$byjxHSgB</td>
+  </tr>
+  <tr>
+    <td class="name">InMemoryTaskDao$MockitoMock$402983823$auxiliary$kmWHMsu7</td>
+  </tr>
+  <tr>
+    <td class="name">InMemoryTaskDao$MockitoMock$402983823$auxiliary$Pzq2q10D</td>
+  </tr>
+  <tr>
+    <td class="name">InMemoryTaskDao$MockitoMock$402983823$auxiliary$QNxE3M9y</td>
+  </tr>
+  <tr>
+    <td class="name">InMemoryTaskDao$MockitoMock$402983823$auxiliary$Rr9Me0Ln</td>
+  </tr>
+  <tr>
+    <td class="name">InMemoryTaskDao$MockitoMock$402983823$auxiliary$sJdaYJFd</td>
+  </tr>
+  <tr>
+    <td class="name">InMemoryTaskDao$MockitoMock$402983823$auxiliary$vIEt8my5</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    53.8%
+  </span>
+  <span class="absValue">
+    (7/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (32/ 48)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.taskie.db;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Maps;
+<i>4</i>&nbsp;import com.google.common.collect.Sets;
+<i>5</i>&nbsp;import com.taskie.api.FlatService;
+<i>6</i>&nbsp;import com.taskie.api.TaskCreate;
+<i>7</i>&nbsp;import com.taskie.api.TaskInfo;
+<i>8</i>&nbsp;import com.taskie.api.TaskService;
+<i>9</i>&nbsp;import com.taskie.core.*;
+<i>10</i>&nbsp;import org.joda.time.DateTime;
+<i>11</i>&nbsp;import org.slf4j.Logger;
+<i>12</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import javax.annotation.Nonnull;
+<i>15</i>&nbsp;import java.util.Arrays;
+<i>16</i>&nbsp;import java.util.Collection;
+<i>17</i>&nbsp;import java.util.List;
+<i>18</i>&nbsp;import java.util.Map;
+<i>19</i>&nbsp;import java.util.concurrent.atomic.AtomicLong;
+<i>20</i>&nbsp;import java.util.stream.Collectors;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;/**
+<i>23</i>&nbsp; * Data access object for {@link Task} storing data in memory.
+<i>24</i>&nbsp; * &lt;p&gt;
+<i>25</i>&nbsp; * Use {@link InMemoryTaskDao#create(FlatService)} to create a new DAO.
+<i>26</i>&nbsp; */
+<i>27</i>&nbsp;public class InMemoryTaskDao implements TaskService {
+<i>28</i>&nbsp;
+<b class="fc"><i>29</i>&nbsp;    private static final Logger LOG = LoggerFactory.getLogger(InMemoryTaskDao.class);</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * Unique task Id generator
+<i>33</i>&nbsp;     */
+<b class="fc"><i>34</i>&nbsp;    private static final AtomicLong UID_GENERATOR = new AtomicLong(1);</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    private final FlatService flatService;
+<i>37</i>&nbsp;
+<b class="fc"><i>38</i>&nbsp;    private InMemoryTaskDao(@Nonnull FlatService flatService, Map&lt;Long, List&lt;TaskCreate&gt;&gt; tasks) {</b>
+<b class="fc"><i>39</i>&nbsp;        this.flatService = flatService;</b>
+<i>40</i>&nbsp;        // save provided tasks
+<b class="fc"><i>41</i>&nbsp;        for (final Long flatId : tasks.keySet()) {</b>
+<b class="fc"><i>42</i>&nbsp;            tasks.get(flatId).forEach(taskCreate -&gt; save(flatId, taskCreate));</b>
+<b class="fc"><i>43</i>&nbsp;        }</b>
+<b class="fc"><i>44</i>&nbsp;    }</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    /**
+<i>47</i>&nbsp;     * Creates a new instance of {@link InMemoryTaskDao}
+<i>48</i>&nbsp;     * and initialises it with tasks for the existing flat (for the prototype).
+<i>49</i>&nbsp;     *
+<i>50</i>&nbsp;     * @param flatService flat service
+<i>51</i>&nbsp;     * @return initialised in-memory task DAO
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    public static InMemoryTaskDao create(FlatService flatService) {
+<b class="fc"><i>54</i>&nbsp;        return new InMemoryTaskDao(flatService,</b>
+<i>55</i>&nbsp;                // initialise example tasks for flatId:1
+<b class="fc"><i>56</i>&nbsp;                Maps.asMap(Sets.newHashSet(1L), id -&gt; Arrays.asList(</b>
+<b class="fc"><i>57</i>&nbsp;                        new TaskCreate(&quot;Throw garbage&quot;, Frequency.WEEKLY.toString(),</b>
+<b class="fc"><i>58</i>&nbsp;                                DateTime.parse(&quot;2018-05-09T00:00&quot;).toString(), Effort.LOW.intValue(),</b>
+<b class="fc"><i>59</i>&nbsp;                                buildUserIds(Arrays.asList(&quot;Jane&quot;, &quot;Tom&quot;, &quot;Joe&quot;))),</b>
+<b class="fc"><i>60</i>&nbsp;                        new TaskCreate(&quot;Buy groceries&quot;, Frequency.WEEKLY.toString(),</b>
+<b class="fc"><i>61</i>&nbsp;                                DateTime.parse(&quot;2018-05-16T00:00&quot;).toString(), Effort.LOW.intValue(),</b>
+<b class="fc"><i>62</i>&nbsp;                                buildUserIds(Arrays.asList(&quot;Tom&quot;, &quot;Joe&quot;, &quot;Jane&quot;))),</b>
+<b class="fc"><i>63</i>&nbsp;                        new TaskCreate(&quot;Clean bathroom&quot;, Frequency.WEEKLY.toString(),</b>
+<b class="fc"><i>64</i>&nbsp;                                DateTime.parse(&quot;2018-05-19T00:00&quot;).toString(), Effort.HIGH.intValue(),</b>
+<b class="fc"><i>65</i>&nbsp;                                buildUserIds(Arrays.asList(&quot;Joe&quot;, &quot;Tom&quot;, &quot;Jane&quot;)))</b>
+<i>66</i>&nbsp;                )));
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    /**
+<i>70</i>&nbsp;     * Maps user names to ids using {@link InMemoryFlatDao#generateUserId(String)}.
+<i>71</i>&nbsp;     *
+<i>72</i>&nbsp;     * @param userNames list of user names
+<i>73</i>&nbsp;     * @return list of user ids
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    private static List&lt;String&gt; buildUserIds(List&lt;String&gt; userNames) {
+<b class="fc"><i>76</i>&nbsp;        return userNames.stream().map(InMemoryFlatDao::generateUserId).collect(Collectors.toList());</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    /**
+<i>80</i>&nbsp;     * {@inheritDoc}
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;    @Nonnull
+<i>83</i>&nbsp;    @Override
+<i>84</i>&nbsp;    public Collection&lt;Task&gt; findAll(long flatId) {
+<b class="nc"><i>85</i>&nbsp;        return flatService.findById(flatId).getTasks();</b>
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /**
+<i>89</i>&nbsp;     * {@inheritDoc}
+<i>90</i>&nbsp;     */
+<i>91</i>&nbsp;    @Nonnull
+<i>92</i>&nbsp;    @Override
+<i>93</i>&nbsp;    public Task findById(long flatId, long taskId) {
+<b class="nc"><i>94</i>&nbsp;        Task task = flatService.findById(flatId).getTask(taskId);</b>
+<b class="nc"><i>95</i>&nbsp;        if (task == null) {</b>
+<b class="nc"><i>96</i>&nbsp;            throw new IllegalArgumentException(&quot;No element for id: &quot; + taskId);</b>
+<i>97</i>&nbsp;        }
+<b class="nc"><i>98</i>&nbsp;        return task;</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    /**
+<i>103</i>&nbsp;     * {@inheritDoc}
+<i>104</i>&nbsp;     */
+<i>105</i>&nbsp;    @Nonnull
+<i>106</i>&nbsp;    @Override
+<i>107</i>&nbsp;    public Task save(long flatId, @Nonnull TaskCreate taskCreate) {
+<b class="fc"><i>108</i>&nbsp;        return save(flatId, UID_GENERATOR.getAndIncrement(), taskCreate);</b>
+<i>109</i>&nbsp;    }
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    private Task save(long flatId, long taskId, TaskCreate taskCreate) {
+<i>112</i>&nbsp;
+<b class="fc"><i>113</i>&nbsp;        Flat flat = flatService.findById(flatId);</b>
+<i>114</i>&nbsp;
+<b class="fc"><i>115</i>&nbsp;        List&lt;Flatmate&gt; flatmates = flatService.findUsers(flatId, taskCreate.getUserIds());</b>
+<b class="fc"><i>116</i>&nbsp;        if (LOG.isInfoEnabled()) {</b>
+<b class="fc"><i>117</i>&nbsp;            LOG.info(&quot;{{}|{}}: Set rotation to {}&quot;, flat.getName(), taskCreate.getTitle(),</b>
+<b class="fc"><i>118</i>&nbsp;                    flatmates.stream().map(Flatmate::getName).collect(Collectors.toList()));</b>
+<i>119</i>&nbsp;        }
+<i>120</i>&nbsp;
+<b class="fc"><i>121</i>&nbsp;        Task task = Task.newBuilder(taskCreate)</b>
+<b class="fc"><i>122</i>&nbsp;                .setId(taskId)</b>
+<b class="fc"><i>123</i>&nbsp;                .setRotation(flatmates)</b>
+<b class="fc"><i>124</i>&nbsp;                .build();</b>
+<b class="fc"><i>125</i>&nbsp;        flat.addTask(task);</b>
+<b class="fc"><i>126</i>&nbsp;        return task;</b>
+<i>127</i>&nbsp;    }
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    /**
+<i>130</i>&nbsp;     * {@inheritDoc}
+<i>131</i>&nbsp;     */
+<i>132</i>&nbsp;    @Override
+<i>133</i>&nbsp;    public void update(long flatId, @Nonnull TaskInfo taskInfo) {
+<b class="nc"><i>134</i>&nbsp;        Task task = flatService.findById(flatId).getTask(taskInfo.getId());</b>
+<b class="nc"><i>135</i>&nbsp;        if (task == null) {</b>
+<b class="nc"><i>136</i>&nbsp;            throw new IllegalArgumentException(&quot;No task for id: &quot; + taskInfo.getId());</b>
+<i>137</i>&nbsp;        }
+<b class="nc"><i>138</i>&nbsp;        save(flatId, task.getId(), taskInfo.deriveTaskCreate());</b>
+<b class="nc"><i>139</i>&nbsp;    }</b>
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;    /**
+<i>142</i>&nbsp;     * {@inheritDoc}
+<i>143</i>&nbsp;     */
+<i>144</i>&nbsp;    @Override
+<i>145</i>&nbsp;    public void delete(long flatId, long taskId) {
+<b class="nc"><i>146</i>&nbsp;        flatService.findById(flatId).removeTask(taskId);</b>
+<b class="nc"><i>147</i>&nbsp;    }</b>
+<i>148</i>&nbsp;
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;    /**
+<i>151</i>&nbsp;     * {@inheritDoc}
+<i>152</i>&nbsp;     */
+<i>153</i>&nbsp;    @Override
+<i>154</i>&nbsp;    public void complete(long flatId, long taskId, @Nonnull String userId) {
+<b class="nc"><i>155</i>&nbsp;        findById(flatId, taskId).markTaskAsDone(userId);</b>
+<b class="nc"><i>156</i>&nbsp;    }</b>
+<i>157</i>&nbsp;
+<i>158</i>&nbsp;    /**
+<i>159</i>&nbsp;     * {@inheritDoc}
+<i>160</i>&nbsp;     */
+<i>161</i>&nbsp;    @Override
+<i>162</i>&nbsp;    public void skip(long flatId, long taskId, @Nonnull String userId) {
+<b class="nc"><i>163</i>&nbsp;        findById(flatId, taskId).skipTask(userId);</b>
+<b class="nc"><i>164</i>&nbsp;    }</b>
+<i>165</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-14 20:59</div>
+</div>
+</body>
+</html>

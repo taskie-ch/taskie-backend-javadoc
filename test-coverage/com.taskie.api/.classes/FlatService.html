@@ -1,0 +1,91 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: FlatService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.taskie.api</a> ]
+</div>
+
+<h1>Coverage Summary for Class: FlatService (com.taskie.api)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">FlatService$MockitoMock$1199086150</td>
+  </tr>
+  <tr>
+    <td class="name">FlatService$MockitoMock$1199086150$auxiliary$1EikyJDP</td>
+  </tr>
+  <tr>
+    <td class="name">FlatService$MockitoMock$1199086150$auxiliary$DBWkagao</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.taskie.api;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.taskie.core.Flat;
+<i>4</i>&nbsp;import com.taskie.core.Flatmate;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import javax.annotation.Nonnull;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Service for all operations concerning flats.
+<i>11</i>&nbsp; *
+<i>12</i>&nbsp; * @see com.taskie.db.InMemoryFlatDao
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public interface FlatService {
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * Finds a flat by it id.
+<i>18</i>&nbsp;     *
+<i>19</i>&nbsp;     * @param flatId id of the flat
+<i>20</i>&nbsp;     * @return existing flat
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    @Nonnull
+<i>23</i>&nbsp;    Flat findById(long flatId);
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Finds users in a flat based on the given id&#39;s and, if found,
+<i>27</i>&nbsp;     * returns as {@link Flatmate} in the same order.
+<i>28</i>&nbsp;     *
+<i>29</i>&nbsp;     * @param flatId  id if the flat
+<i>30</i>&nbsp;     * @param userIds list of user ids
+<i>31</i>&nbsp;     * @return list of flatmates ordered by input ids
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;    @Nonnull
+<i>34</i>&nbsp;    List&lt;Flatmate&gt; findUsers(long flatId, @Nonnull List&lt;String&gt; userIds);
+<i>35</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-14 20:59</div>
+</div>
+</body>
+</html>

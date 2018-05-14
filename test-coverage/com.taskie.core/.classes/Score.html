@@ -1,0 +1,165 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Score</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.taskie.core</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Score (com.taskie.core)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Score</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (5/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.3%
+  </span>
+  <span class="absValue">
+    (11/ 15)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Score$$DynamicSubclass</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (5/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.3%
+  </span>
+  <span class="absValue">
+    (11/ 15)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.taskie.core;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.base.MoreObjects;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import javax.annotation.concurrent.GuardedBy;
+<i>6</i>&nbsp;import javax.annotation.concurrent.ThreadSafe;
+<i>7</i>&nbsp;import java.util.Objects;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Score of a user used for the hall of fame.
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;@ThreadSafe
+<i>13</i>&nbsp;public class Score {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    @GuardedBy(&quot;this&quot;)
+<i>16</i>&nbsp;    private int points;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /**
+<i>19</i>&nbsp;     * Creates a score.
+<i>20</i>&nbsp;     *
+<i>21</i>&nbsp;     * @param points initial points
+<i>22</i>&nbsp;     */
+<b class="fc"><i>23</i>&nbsp;    public Score(int points) {</b>
+<b class="fc"><i>24</i>&nbsp;        this.points = points;</b>
+<b class="fc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * Get the score int representation.
+<i>29</i>&nbsp;     *
+<i>30</i>&nbsp;     * @return numeric score value
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    synchronized int intValue() {
+<b class="fc"><i>33</i>&nbsp;        return points;</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    /**
+<i>37</i>&nbsp;     * Increments the score value.
+<i>38</i>&nbsp;     *
+<i>39</i>&nbsp;     * @param points value to add
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    synchronized void increment(int points) {
+<b class="nc"><i>42</i>&nbsp;        this.points += points;</b>
+<b class="nc"><i>43</i>&nbsp;    }</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * Decrements the score value.
+<i>47</i>&nbsp;     *
+<i>48</i>&nbsp;     * @param points value to subtract
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    synchronized void decrement(int points) {
+<b class="nc"><i>51</i>&nbsp;        this.points -= points;</b>
+<b class="nc"><i>52</i>&nbsp;    }</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    @Override
+<i>55</i>&nbsp;    public final boolean equals(Object o) {
+<b class="fc"><i>56</i>&nbsp;        if (!(o instanceof Score)) return false;</b>
+<b class="fc"><i>57</i>&nbsp;        Score score = (Score) o;</b>
+<b class="fc"><i>58</i>&nbsp;        return intValue() == score.intValue();</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    @Override
+<i>62</i>&nbsp;    public final int hashCode() {
+<b class="fc"><i>63</i>&nbsp;        return Objects.hash(intValue());</b>
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    @Override
+<i>67</i>&nbsp;    public String toString() {
+<b class="fc"><i>68</i>&nbsp;        return MoreObjects.toStringHelper(this)</b>
+<b class="fc"><i>69</i>&nbsp;                .add(&quot;points&quot;, intValue())</b>
+<b class="fc"><i>70</i>&nbsp;                .toString();</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-14 20:59</div>
+</div>
+</body>
+</html>

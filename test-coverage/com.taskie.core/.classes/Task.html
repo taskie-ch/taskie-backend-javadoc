@@ -1,0 +1,432 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Task</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.taskie.core</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Task (com.taskie.core)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Task</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (12/ 21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60.8%
+  </span>
+  <span class="absValue">
+    (31/ 51)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Task$$DynamicSubclass</td>
+  </tr>
+  <tr>
+    <td class="name">Task$1</td>
+  </tr>
+  <tr>
+    <td class="name">Task$Builder</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (32/ 32)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Task$MockitoMock$763075902</td>
+  </tr>
+  <tr>
+    <td class="name">Task$MockitoMock$763075902$auxiliary$95FKVtGL</td>
+  </tr>
+  <tr>
+    <td class="name">Task$MockitoMock$763075902$auxiliary$AHKKQSUn</td>
+  </tr>
+  <tr>
+    <td class="name">Task$MockitoMock$763075902$auxiliary$clFuiitV</td>
+  </tr>
+  <tr>
+    <td class="name">Task$MockitoMock$763075902$auxiliary$DlvSDZAL</td>
+  </tr>
+  <tr>
+    <td class="name">Task$MockitoMock$763075902$auxiliary$gAxZotCR</td>
+  </tr>
+  <tr>
+    <td class="name">Task$MockitoMock$763075902$auxiliary$jMZH40CL</td>
+  </tr>
+  <tr>
+    <td class="name">Task$MockitoMock$763075902$auxiliary$K6fw4np8</td>
+  </tr>
+  <tr>
+    <td class="name">Task$MockitoMock$763075902$auxiliary$M2lbkasZ</td>
+  </tr>
+  <tr>
+    <td class="name">Task$MockitoMock$763075902$auxiliary$nIL4dECt</td>
+  </tr>
+  <tr>
+    <td class="name">Task$MockitoMock$763075902$auxiliary$vtZ3BOO6</td>
+  </tr>
+  <tr>
+    <td class="name">Task$MockitoMock$763075902$auxiliary$ZTb5a98U</td>
+  </tr>
+  <tr>
+    <td class="name">Task$MockitoMock$763075902$auxiliary$ZzcJWFX0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    72.7%
+  </span>
+  <span class="absValue">
+    (24/ 33)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75.9%
+  </span>
+  <span class="absValue">
+    (63/ 83)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.taskie.core;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.base.MoreObjects;
+<i>4</i>&nbsp;import com.taskie.api.Id;
+<i>5</i>&nbsp;import com.taskie.api.TaskCreate;
+<i>6</i>&nbsp;import com.taskie.api.TaskInfo;
+<i>7</i>&nbsp;import org.joda.time.DateTime;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.Collection;
+<i>10</i>&nbsp;import java.util.Objects;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import static com.google.common.base.Preconditions.checkState;
+<i>13</i>&nbsp;import static java.util.Objects.requireNonNull;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; * Task representation.
+<i>17</i>&nbsp; * &lt;p&gt;
+<i>18</i>&nbsp; * Use {@link Task#newBuilder()} to create a new task.
+<i>19</i>&nbsp; */
+<b class="fc"><i>20</i>&nbsp;public class Task {</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    private final long id;
+<i>23</i>&nbsp;    private final String title;
+<i>24</i>&nbsp;    private final Effort effort;
+<i>25</i>&nbsp;    private final Frequency frequency;
+<i>26</i>&nbsp;    private final DueDate start;
+<i>27</i>&nbsp;    private final Rotation rotation;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    private Task(long id, String title, Effort effort, Frequency frequency,
+<b class="fc"><i>30</i>&nbsp;                 DueDate start, Rotation rotation) {</b>
+<b class="fc"><i>31</i>&nbsp;        this.id = id;</b>
+<b class="fc"><i>32</i>&nbsp;        this.title = title;</b>
+<b class="fc"><i>33</i>&nbsp;        this.effort = effort;</b>
+<b class="fc"><i>34</i>&nbsp;        this.frequency = frequency;</b>
+<b class="fc"><i>35</i>&nbsp;        this.start = start;</b>
+<b class="fc"><i>36</i>&nbsp;        this.rotation = rotation;</b>
+<b class="fc"><i>37</i>&nbsp;    }</b>
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    /**
+<i>40</i>&nbsp;     * Updates the user rotation and due date and rewards the user
+<i>41</i>&nbsp;     * that has marked the task as done with the value of the effort.
+<i>42</i>&nbsp;     *
+<i>43</i>&nbsp;     * @param userId id of the user that has completed the task
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    public void markTaskAsDone(String userId) {
+<b class="nc"><i>46</i>&nbsp;        rewardEffort(userId);</b>
+<b class="nc"><i>47</i>&nbsp;        updateRotation();</b>
+<b class="nc"><i>48</i>&nbsp;        updateDueDate();</b>
+<b class="nc"><i>49</i>&nbsp;    }</b>
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    /**
+<i>52</i>&nbsp;     * Updates the user rotation and due date and fines the user
+<i>53</i>&nbsp;     * that has skipped the task with the value of the effort.
+<i>54</i>&nbsp;     *
+<i>55</i>&nbsp;     * @param userId id of the user that has skipped the task
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    public void skipTask(String userId) {
+<b class="nc"><i>58</i>&nbsp;        fineEffort(userId);</b>
+<b class="nc"><i>59</i>&nbsp;        updateRotation();</b>
+<b class="nc"><i>60</i>&nbsp;        updateDueDate();</b>
+<b class="nc"><i>61</i>&nbsp;    }</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /**
+<i>64</i>&nbsp;     * Rewards the user using the effort value.
+<i>65</i>&nbsp;     *
+<i>66</i>&nbsp;     * @param userId id of the user
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;    private void rewardEffort(String userId) {
+<b class="nc"><i>69</i>&nbsp;        rotation.applyToUser(userId, user -&gt; user.incrementScore(effort.intValue()));</b>
+<b class="nc"><i>70</i>&nbsp;    }</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    /**
+<i>73</i>&nbsp;     * Fines the user using the effort value.
+<i>74</i>&nbsp;     *
+<i>75</i>&nbsp;     * @param userId id of the user
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;    private void fineEffort(String userId) {
+<b class="nc"><i>78</i>&nbsp;        rotation.applyToUser(userId, user -&gt; user.decrementScore(effort.intValue()));</b>
+<b class="nc"><i>79</i>&nbsp;    }</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    /**
+<i>82</i>&nbsp;     * Updates the due date using the frequency.
+<i>83</i>&nbsp;     */
+<i>84</i>&nbsp;    private void updateDueDate() {
+<b class="nc"><i>85</i>&nbsp;        start.update(frequency);</b>
+<b class="nc"><i>86</i>&nbsp;    }</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /**
+<i>89</i>&nbsp;     * Updates the rotation with the next user in line.
+<i>90</i>&nbsp;     */
+<i>91</i>&nbsp;    private void updateRotation() {
+<b class="nc"><i>92</i>&nbsp;        rotation.update();</b>
+<b class="nc"><i>93</i>&nbsp;    }</b>
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**
+<i>97</i>&nbsp;     * Derives the JSON API representation of the task id.
+<i>98</i>&nbsp;     *
+<i>99</i>&nbsp;     * @return JSON API id representation
+<i>100</i>&nbsp;     */
+<i>101</i>&nbsp;    public Id deriveId() {
+<b class="fc"><i>102</i>&nbsp;        return new Id(id);</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    /**
+<i>106</i>&nbsp;     * Derives the JSON API representation of the task.
+<i>107</i>&nbsp;     *
+<i>108</i>&nbsp;     * @return JSON API task representation
+<i>109</i>&nbsp;     */
+<i>110</i>&nbsp;    public TaskInfo deriveInfo() {
+<b class="nc"><i>111</i>&nbsp;        return new TaskInfo(id, title, frequency.name(), start.asString(),</b>
+<b class="nc"><i>112</i>&nbsp;                effort.intValue(), rotation.getRotationUserIds());</b>
+<i>113</i>&nbsp;    }
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    /**
+<i>116</i>&nbsp;     * @return task id
+<i>117</i>&nbsp;     */
+<i>118</i>&nbsp;    public long getId() {
+<b class="fc"><i>119</i>&nbsp;        return id;</b>
+<i>120</i>&nbsp;    }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    /**
+<i>123</i>&nbsp;     * @return task title
+<i>124</i>&nbsp;     */
+<i>125</i>&nbsp;    public String getTitle() {
+<b class="fc"><i>126</i>&nbsp;        return title;</b>
+<i>127</i>&nbsp;    }
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    /**
+<i>130</i>&nbsp;     * @return task effort
+<i>131</i>&nbsp;     */
+<i>132</i>&nbsp;    public Effort getEffort() {
+<b class="fc"><i>133</i>&nbsp;        return effort;</b>
+<i>134</i>&nbsp;    }
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    /**
+<i>137</i>&nbsp;     * @return task frequency
+<i>138</i>&nbsp;     */
+<i>139</i>&nbsp;    public Frequency getFrequency() {
+<b class="fc"><i>140</i>&nbsp;        return frequency;</b>
+<i>141</i>&nbsp;    }
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;    /**
+<i>144</i>&nbsp;     * @return task start date
+<i>145</i>&nbsp;     */
+<i>146</i>&nbsp;    public DueDate getStart() {
+<b class="nc"><i>147</i>&nbsp;        return start;</b>
+<i>148</i>&nbsp;    }
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;    /**
+<i>151</i>&nbsp;     * @return task user rotation
+<i>152</i>&nbsp;     */
+<i>153</i>&nbsp;    public Rotation getRotation() {
+<b class="nc"><i>154</i>&nbsp;        return rotation;</b>
+<i>155</i>&nbsp;    }
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;    @Override
+<i>158</i>&nbsp;    public final boolean equals(Object o) {
+<b class="fc"><i>159</i>&nbsp;        if (!(o instanceof Task)) return false;</b>
+<b class="fc"><i>160</i>&nbsp;        Task task = (Task) o;</b>
+<b class="fc"><i>161</i>&nbsp;        return id == task.id &amp;&amp;</b>
+<b class="fc"><i>162</i>&nbsp;                Objects.equals(title, task.title) &amp;&amp;</b>
+<i>163</i>&nbsp;                effort == task.effort &amp;&amp;
+<i>164</i>&nbsp;                frequency == task.frequency &amp;&amp;
+<b class="fc"><i>165</i>&nbsp;                Objects.equals(start, task.start) &amp;&amp;</b>
+<b class="fc"><i>166</i>&nbsp;                Objects.equals(rotation, task.rotation);</b>
+<i>167</i>&nbsp;    }
+<i>168</i>&nbsp;
+<i>169</i>&nbsp;    @Override
+<i>170</i>&nbsp;    public final int hashCode() {
+<b class="fc"><i>171</i>&nbsp;        return Objects.hash(id, title, effort, frequency, start, rotation);</b>
+<i>172</i>&nbsp;    }
+<i>173</i>&nbsp;
+<i>174</i>&nbsp;    @Override
+<i>175</i>&nbsp;    public String toString() {
+<b class="fc"><i>176</i>&nbsp;        return MoreObjects.toStringHelper(this)</b>
+<b class="fc"><i>177</i>&nbsp;                .add(&quot;id&quot;, id)</b>
+<b class="fc"><i>178</i>&nbsp;                .add(&quot;title&quot;, title)</b>
+<b class="fc"><i>179</i>&nbsp;                .add(&quot;effort&quot;, effort)</b>
+<b class="fc"><i>180</i>&nbsp;                .add(&quot;frequency&quot;, frequency)</b>
+<b class="fc"><i>181</i>&nbsp;                .add(&quot;start&quot;, start)</b>
+<b class="fc"><i>182</i>&nbsp;                .add(&quot;rotation&quot;, rotation)</b>
+<b class="fc"><i>183</i>&nbsp;                .toString();</b>
+<i>184</i>&nbsp;    }
+<i>185</i>&nbsp;
+<i>186</i>&nbsp;    /**
+<i>187</i>&nbsp;     * Creates a new task builder.
+<i>188</i>&nbsp;     *
+<i>189</i>&nbsp;     * @return task builder
+<i>190</i>&nbsp;     */
+<i>191</i>&nbsp;    public static Builder newBuilder() {
+<b class="fc"><i>192</i>&nbsp;        return new Builder();</b>
+<i>193</i>&nbsp;    }
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;    /**
+<i>196</i>&nbsp;     * Creates a new task builder with data.
+<i>197</i>&nbsp;     *
+<i>198</i>&nbsp;     * @param taskCreate new task data
+<i>199</i>&nbsp;     * @return task builder
+<i>200</i>&nbsp;     */
+<i>201</i>&nbsp;    public static Builder newBuilder(TaskCreate taskCreate) {
+<b class="fc"><i>202</i>&nbsp;        return new Builder(taskCreate);</b>
+<i>203</i>&nbsp;    }
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;    /**
+<i>206</i>&nbsp;     * Static builder for task instances.
+<i>207</i>&nbsp;     */
+<b class="fc"><i>208</i>&nbsp;    public static class Builder {</b>
+<i>209</i>&nbsp;
+<b class="fc"><i>210</i>&nbsp;        private long id = -1;</b>
+<i>211</i>&nbsp;        private String title;
+<i>212</i>&nbsp;        private Effort effort;
+<i>213</i>&nbsp;        private Frequency frequency;
+<i>214</i>&nbsp;        private DueDate startDate;
+<i>215</i>&nbsp;        private Rotation rotation;
+<i>216</i>&nbsp;
+<b class="fc"><i>217</i>&nbsp;        private Builder() {</b>
+<i>218</i>&nbsp;            // default private constructor
+<b class="fc"><i>219</i>&nbsp;        }</b>
+<i>220</i>&nbsp;
+<b class="fc"><i>221</i>&nbsp;        private Builder(TaskCreate taskCreate) {</b>
+<b class="fc"><i>222</i>&nbsp;            setTitle(taskCreate.getTitle());</b>
+<b class="fc"><i>223</i>&nbsp;            setFrequency(Frequency.valueOf(taskCreate.getFrequency().toUpperCase()));</b>
+<b class="fc"><i>224</i>&nbsp;            setEffort(Effort.valueOf(taskCreate.getEffort()));</b>
+<b class="fc"><i>225</i>&nbsp;            setStartDate(DateTime.parse(taskCreate.getStart()));</b>
+<b class="fc"><i>226</i>&nbsp;        }</b>
+<i>227</i>&nbsp;
+<i>228</i>&nbsp;        public Builder setId(long id) {
+<b class="fc"><i>229</i>&nbsp;            this.id = id;</b>
+<b class="fc"><i>230</i>&nbsp;            return this;</b>
+<i>231</i>&nbsp;        }
+<i>232</i>&nbsp;
+<i>233</i>&nbsp;        public Builder setTitle(String title) {
+<b class="fc"><i>234</i>&nbsp;            this.title = title;</b>
+<b class="fc"><i>235</i>&nbsp;            return this;</b>
+<i>236</i>&nbsp;        }
+<i>237</i>&nbsp;
+<i>238</i>&nbsp;        public Builder setEffort(Effort effort) {
+<b class="fc"><i>239</i>&nbsp;            this.effort = effort;</b>
+<b class="fc"><i>240</i>&nbsp;            return this;</b>
+<i>241</i>&nbsp;        }
+<i>242</i>&nbsp;
+<i>243</i>&nbsp;        public Builder setFrequency(Frequency frequency) {
+<b class="fc"><i>244</i>&nbsp;            this.frequency = frequency;</b>
+<b class="fc"><i>245</i>&nbsp;            return this;</b>
+<i>246</i>&nbsp;        }
+<i>247</i>&nbsp;
+<i>248</i>&nbsp;        public Builder setStartDate(DateTime startDate) {
+<b class="fc"><i>249</i>&nbsp;            return setStartDate(new DueDate(startDate));</b>
+<i>250</i>&nbsp;
+<i>251</i>&nbsp;        }
+<i>252</i>&nbsp;
+<i>253</i>&nbsp;        private Builder setStartDate(DueDate startDate) {
+<b class="fc"><i>254</i>&nbsp;            this.startDate = startDate;</b>
+<b class="fc"><i>255</i>&nbsp;            return this;</b>
+<i>256</i>&nbsp;        }
+<i>257</i>&nbsp;
+<i>258</i>&nbsp;        public Builder setRotation(Collection&lt;Flatmate&gt; rotation) {
+<b class="fc"><i>259</i>&nbsp;            Rotation rota = new Rotation();</b>
+<b class="fc"><i>260</i>&nbsp;            rota.addAll(rotation);</b>
+<b class="fc"><i>261</i>&nbsp;            return setRotation(rota);</b>
+<i>262</i>&nbsp;        }
+<i>263</i>&nbsp;
+<i>264</i>&nbsp;        private Builder setRotation(Rotation rotation) {
+<b class="fc"><i>265</i>&nbsp;            this.rotation = rotation;</b>
+<b class="fc"><i>266</i>&nbsp;            return this;</b>
+<i>267</i>&nbsp;        }
+<i>268</i>&nbsp;
+<i>269</i>&nbsp;        public Task build() {
+<b class="fc"><i>270</i>&nbsp;            checkState(id &gt;= 0, &quot;Id is required&quot;);</b>
+<b class="fc"><i>271</i>&nbsp;            requireNonNull(title, &quot;Title is required&quot;);</b>
+<b class="fc"><i>272</i>&nbsp;            requireNonNull(effort, &quot;Effort is required&quot;);</b>
+<b class="fc"><i>273</i>&nbsp;            requireNonNull(frequency, &quot;Frequency is required&quot;);</b>
+<b class="fc"><i>274</i>&nbsp;            requireNonNull(startDate, &quot;Start date is required&quot;);</b>
+<b class="fc"><i>275</i>&nbsp;            return new Task(id, title, effort, frequency, startDate, rotation);</b>
+<i>276</i>&nbsp;        }
+<i>277</i>&nbsp;    }
+<i>278</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-14 20:59</div>
+</div>
+</body>
+</html>

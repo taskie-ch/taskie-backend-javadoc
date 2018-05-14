@@ -1,0 +1,145 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: HallOfFameResource</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.taskie.resources</a> ]
+</div>
+
+<h1>Coverage Summary for Class: HallOfFameResource (com.taskie.resources)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HallOfFameResource</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.taskie.resources;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.codahale.metrics.annotation.Timed;
+<i>4</i>&nbsp;import com.taskie.api.FlatService;
+<i>5</i>&nbsp;import com.taskie.api.User;
+<i>6</i>&nbsp;import com.taskie.core.Flat;
+<i>7</i>&nbsp;import com.taskie.core.Flatmate;
+<i>8</i>&nbsp;import io.dropwizard.jersey.params.LongParam;
+<i>9</i>&nbsp;import io.swagger.annotations.Api;
+<i>10</i>&nbsp;import io.swagger.annotations.ApiOperation;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import javax.annotation.Nonnull;
+<i>13</i>&nbsp;import javax.ws.rs.GET;
+<i>14</i>&nbsp;import javax.ws.rs.Path;
+<i>15</i>&nbsp;import javax.ws.rs.PathParam;
+<i>16</i>&nbsp;import javax.ws.rs.Produces;
+<i>17</i>&nbsp;import javax.ws.rs.core.MediaType;
+<i>18</i>&nbsp;import java.util.Collection;
+<i>19</i>&nbsp;import java.util.stream.Collectors;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;import static com.taskie.resources.ResourcePath.*;
+<i>22</i>&nbsp;import static java.util.Objects.requireNonNull;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;/**
+<i>25</i>&nbsp; * Endpoint handling user data for the hall of fame.
+<i>26</i>&nbsp; */
+<i>27</i>&nbsp;@Path(FLATS)
+<i>28</i>&nbsp;@Api(value = &quot;hof&quot;)
+<i>29</i>&nbsp;@Produces(MediaType.APPLICATION_JSON)
+<i>30</i>&nbsp;public class HallOfFameResource {
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * Provides flat and user data.
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;    private FlatService flatService;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * Creates an endpoint for the hall of fame.
+<i>39</i>&nbsp;     *
+<i>40</i>&nbsp;     * @param flatService flat service
+<i>41</i>&nbsp;     */
+<b class="fc"><i>42</i>&nbsp;    public HallOfFameResource(@Nonnull FlatService flatService) {</b>
+<b class="fc"><i>43</i>&nbsp;        this.flatService = requireNonNull(flatService, &quot;FlatService is required&quot;);</b>
+<b class="fc"><i>44</i>&nbsp;    }</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    /**
+<i>47</i>&nbsp;     * Provides all users of a flat with their scores.
+<i>48</i>&nbsp;     *
+<i>49</i>&nbsp;     * @param flatId id of the flat
+<i>50</i>&nbsp;     * @return users and scores of a flat
+<i>51</i>&nbsp;     */
+<i>52</i>&nbsp;    @GET
+<i>53</i>&nbsp;    @Timed
+<i>54</i>&nbsp;    @Path(HALL_OF_FAME)
+<i>55</i>&nbsp;    @ApiOperation(value = &quot;Get users and scores from the hall of fame&quot;)
+<i>56</i>&nbsp;    public Collection&lt;User&gt; getHallOfFame(@PathParam(FLAT_ID) LongParam flatId) {
+<b class="fc"><i>57</i>&nbsp;        Flat flat = flatService.findById(flatId.get());</b>
+<b class="fc"><i>58</i>&nbsp;        return flat.getUsers().stream()</b>
+<b class="fc"><i>59</i>&nbsp;                .map(Flatmate::deriveUser)</b>
+<b class="fc"><i>60</i>&nbsp;                .collect(Collectors.toList());</b>
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-14 20:59</div>
+</div>
+</body>
+</html>

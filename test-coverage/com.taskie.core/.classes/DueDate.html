@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: DueDate</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.taskie.core</a> ]
+</div>
+
+<h1>Coverage Summary for Class: DueDate (com.taskie.core)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DueDate</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70.6%
+  </span>
+  <span class="absValue">
+    (12/ 17)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DueDate$$DynamicSubclass</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70.6%
+  </span>
+  <span class="absValue">
+    (12/ 17)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.taskie.core;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.base.MoreObjects;
+<i>4</i>&nbsp;import org.joda.time.DateTime;
+<i>5</i>&nbsp;import org.slf4j.Logger;
+<i>6</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import javax.annotation.concurrent.GuardedBy;
+<i>9</i>&nbsp;import javax.annotation.concurrent.ThreadSafe;
+<i>10</i>&nbsp;import java.util.Objects;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/**
+<i>13</i>&nbsp; * Date when a task has to be completed.
+<i>14</i>&nbsp; */
+<i>15</i>&nbsp;@ThreadSafe
+<i>16</i>&nbsp;class DueDate {
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;    private static final Logger LOG = LoggerFactory.getLogger(Task.class);</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    @GuardedBy(&quot;this&quot;)
+<i>21</i>&nbsp;    private DateTime date;
+<i>22</i>&nbsp;
+<b class="fc"><i>23</i>&nbsp;    DueDate(DateTime date) {</b>
+<b class="fc"><i>24</i>&nbsp;        this.date = date;</b>
+<b class="fc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * Update to the next due date given the frequency.
+<i>29</i>&nbsp;     *
+<i>30</i>&nbsp;     * @param frequency time that is added to the due date
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    synchronized void update(Frequency frequency) {
+<b class="nc"><i>33</i>&nbsp;        DateTime next = frequency.apply(date);</b>
+<b class="nc"><i>34</i>&nbsp;        LOG.info(&quot;Updating due date to {}&quot;, next);</b>
+<b class="nc"><i>35</i>&nbsp;        date = next;</b>
+<b class="nc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * @return date
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    synchronized DateTime getDate() {
+<b class="fc"><i>42</i>&nbsp;        return date;</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * @return date as string
+<i>47</i>&nbsp;     * @see DateTime#toString()
+<i>48</i>&nbsp;     */
+<i>49</i>&nbsp;    synchronized String asString() {
+<b class="nc"><i>50</i>&nbsp;        return date.toString();</b>
+<i>51</i>&nbsp;    }
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    @Override
+<i>54</i>&nbsp;    public final boolean equals(Object o) {
+<b class="fc"><i>55</i>&nbsp;        if (!(o instanceof DueDate)) return false;</b>
+<b class="fc"><i>56</i>&nbsp;        DueDate dueDate = (DueDate) o;</b>
+<b class="fc"><i>57</i>&nbsp;        return Objects.equals(getDate(), dueDate.getDate());</b>
+<i>58</i>&nbsp;    }
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    @Override
+<i>61</i>&nbsp;    public final int hashCode() {
+<b class="fc"><i>62</i>&nbsp;        return Objects.hash(getDate());</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    @Override
+<i>66</i>&nbsp;    public String toString() {
+<b class="fc"><i>67</i>&nbsp;        return MoreObjects.toStringHelper(this)</b>
+<b class="fc"><i>68</i>&nbsp;                .add(&quot;date&quot;, getDate())</b>
+<b class="fc"><i>69</i>&nbsp;                .toString();</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-14 20:59</div>
+</div>
+</body>
+</html>

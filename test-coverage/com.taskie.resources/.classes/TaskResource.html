@@ -1,0 +1,242 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TaskResource</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.taskie.resources</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TaskResource (com.taskie.resources)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TaskResource</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (28/ 28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.taskie.resources;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.codahale.metrics.annotation.Timed;
+<i>4</i>&nbsp;import com.taskie.api.*;
+<i>5</i>&nbsp;import com.taskie.core.Task;
+<i>6</i>&nbsp;import io.dropwizard.jersey.params.LongParam;
+<i>7</i>&nbsp;import io.swagger.annotations.Api;
+<i>8</i>&nbsp;import io.swagger.annotations.ApiOperation;
+<i>9</i>&nbsp;import org.slf4j.Logger;
+<i>10</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import javax.annotation.Nonnull;
+<i>13</i>&nbsp;import javax.ws.rs.*;
+<i>14</i>&nbsp;import javax.ws.rs.core.MediaType;
+<i>15</i>&nbsp;import java.util.Collection;
+<i>16</i>&nbsp;import java.util.stream.Collectors;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;import static com.taskie.resources.ResourcePath.*;
+<i>19</i>&nbsp;import static java.util.Objects.requireNonNull;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;/**
+<i>22</i>&nbsp; * Endpoint handling task access and manipulation.
+<i>23</i>&nbsp; */
+<i>24</i>&nbsp;@Path(FLATS)
+<i>25</i>&nbsp;@Api(value = &quot;tasks&quot;)
+<i>26</i>&nbsp;@Produces(MediaType.APPLICATION_JSON)
+<i>27</i>&nbsp;public class TaskResource {
+<i>28</i>&nbsp;
+<b class="fc"><i>29</i>&nbsp;    private static final Logger LOG = LoggerFactory.getLogger(TaskResource.class);</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * Provides task data.
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    private final TaskService taskService;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    /**
+<i>37</i>&nbsp;     * Creates an endpoint for task manipulation.
+<i>38</i>&nbsp;     *
+<i>39</i>&nbsp;     * @param taskService task service
+<i>40</i>&nbsp;     */
+<b class="fc"><i>41</i>&nbsp;    public TaskResource(@Nonnull TaskService taskService) {</b>
+<b class="fc"><i>42</i>&nbsp;        this.taskService = taskService;</b>
+<b class="fc"><i>43</i>&nbsp;    }</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * Gets all open tasks for a flat.
+<i>47</i>&nbsp;     *
+<i>48</i>&nbsp;     * @param flatId id of the flat
+<i>49</i>&nbsp;     * @return collection of all tasks for a flat
+<i>50</i>&nbsp;     */
+<i>51</i>&nbsp;    @GET
+<i>52</i>&nbsp;    @Timed
+<i>53</i>&nbsp;    @Path(TASKS)
+<i>54</i>&nbsp;    @ApiOperation(value = &quot;Get all tasks&quot;)
+<i>55</i>&nbsp;    public Collection&lt;TaskInfo&gt; getTasks(@PathParam(FLAT_ID) LongParam flatId) {
+<b class="fc"><i>56</i>&nbsp;        LOG.info(&quot;Get all tasks for flat:{}&quot;, flatId.get());</b>
+<b class="fc"><i>57</i>&nbsp;        return taskService.findAll(flatId.get()).stream()</b>
+<b class="fc"><i>58</i>&nbsp;                .map(Task::deriveInfo)</b>
+<b class="fc"><i>59</i>&nbsp;                .collect(Collectors.toList());</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    /**
+<i>63</i>&nbsp;     * Creates a new task for a flat.
+<i>64</i>&nbsp;     *
+<i>65</i>&nbsp;     * @param flatId     id of the flat
+<i>66</i>&nbsp;     * @param taskCreate payload for creating a task
+<i>67</i>&nbsp;     * @return id of the newly created task
+<i>68</i>&nbsp;     */
+<i>69</i>&nbsp;    @POST
+<i>70</i>&nbsp;    @Timed
+<i>71</i>&nbsp;    @Path(TASKS)
+<i>72</i>&nbsp;    @ApiOperation(value = &quot;Create a new task&quot;)
+<i>73</i>&nbsp;    public Id createTask(@PathParam(FLAT_ID) LongParam flatId, TaskCreate taskCreate) {
+<b class="fc"><i>74</i>&nbsp;        requireNonNull(taskCreate, &quot;TaskCreate is required&quot;);</b>
+<b class="fc"><i>75</i>&nbsp;        LOG.info(&quot;Create new task for flat:{}, title:{}&quot;, flatId.get(), taskCreate.getTitle());</b>
+<b class="fc"><i>76</i>&nbsp;        return taskService.save(flatId.get(), taskCreate).deriveId();</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    /**
+<i>80</i>&nbsp;     * Gets an existing task for a flat.
+<i>81</i>&nbsp;     *
+<i>82</i>&nbsp;     * @param flatId id of the flat
+<i>83</i>&nbsp;     * @param taskId id of the task
+<i>84</i>&nbsp;     * @return payload of the task
+<i>85</i>&nbsp;     */
+<i>86</i>&nbsp;    @GET
+<i>87</i>&nbsp;    @Timed
+<i>88</i>&nbsp;    @Path(TASK)
+<i>89</i>&nbsp;    @ApiOperation(value = &quot;Get tasks by id&quot;)
+<i>90</i>&nbsp;    public TaskInfo getTask(@PathParam(FLAT_ID) LongParam flatId, @PathParam(TASK_ID) LongParam taskId) {
+<b class="fc"><i>91</i>&nbsp;        LOG.info(&quot;Get task for flat:{}, task:{}&quot;, flatId.get(), taskId.get());</b>
+<b class="fc"><i>92</i>&nbsp;        return taskService.findById(flatId.get(), taskId.get()).deriveInfo();</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    /**
+<i>96</i>&nbsp;     * Updates an existing task for a flat.
+<i>97</i>&nbsp;     *
+<i>98</i>&nbsp;     * @param flatId   id of the flat
+<i>99</i>&nbsp;     * @param taskInfo payload of the task
+<i>100</i>&nbsp;     */
+<i>101</i>&nbsp;    @POST
+<i>102</i>&nbsp;    @Timed
+<i>103</i>&nbsp;    @Path(TASK)
+<i>104</i>&nbsp;    @ApiOperation(value = &quot;Update tasks for id&quot;)
+<i>105</i>&nbsp;    public void updateTask(@PathParam(FLAT_ID) LongParam flatId, TaskInfo taskInfo) {
+<b class="fc"><i>106</i>&nbsp;        requireNonNull(taskInfo, &quot;TaskInfo is required&quot;);</b>
+<b class="fc"><i>107</i>&nbsp;        LOG.info(&quot;Update task for flat:{}, task:{}&quot;, flatId.get(), taskInfo.getId());</b>
+<b class="fc"><i>108</i>&nbsp;        taskService.update(flatId.get(), taskInfo);</b>
+<b class="fc"><i>109</i>&nbsp;    }</b>
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    /**
+<i>112</i>&nbsp;     * Deletes an existing task for a flat.
+<i>113</i>&nbsp;     *
+<i>114</i>&nbsp;     * @param flatId id of the flat
+<i>115</i>&nbsp;     * @param taskId if of the task
+<i>116</i>&nbsp;     */
+<i>117</i>&nbsp;    @DELETE
+<i>118</i>&nbsp;    @Timed
+<i>119</i>&nbsp;    @Path(TASK)
+<i>120</i>&nbsp;    @ApiOperation(value = &quot;Delete tasks by id&quot;)
+<i>121</i>&nbsp;    public void deleteTask(@PathParam(FLAT_ID) LongParam flatId, @PathParam(TASK_ID) LongParam taskId) {
+<b class="fc"><i>122</i>&nbsp;        LOG.info(&quot;Delete task for flat:{}, task{}&quot;, flatId.get(), taskId.get());</b>
+<b class="fc"><i>123</i>&nbsp;        taskService.delete(flatId.get(), taskId.get());</b>
+<b class="fc"><i>124</i>&nbsp;    }</b>
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;    /**
+<i>127</i>&nbsp;     * Marks an existing task as done by a user in a flat.
+<i>128</i>&nbsp;     *
+<i>129</i>&nbsp;     * @param flatId id of the flat
+<i>130</i>&nbsp;     * @param taskId id of the task
+<i>131</i>&nbsp;     * @param userId id of the user that completed the task
+<i>132</i>&nbsp;     */
+<i>133</i>&nbsp;    @POST
+<i>134</i>&nbsp;    @Timed
+<i>135</i>&nbsp;    @Path(TASK_COMPLETE)
+<i>136</i>&nbsp;    @ApiOperation(value = &quot;Completes a task by id&quot;)
+<i>137</i>&nbsp;    public void completeTask(@PathParam(FLAT_ID) LongParam flatId, @PathParam(TASK_ID) LongParam taskId, UserId userId) {
+<b class="fc"><i>138</i>&nbsp;        requireNonNull(flatId, &quot;UserId is required&quot;);</b>
+<b class="fc"><i>139</i>&nbsp;        LOG.info(&quot;Complete task for flat:{}, task:{}&quot;, flatId.get(), taskId.get());</b>
+<b class="fc"><i>140</i>&nbsp;        taskService.complete(flatId.get(), taskId.get(), userId.getUserId());</b>
+<b class="fc"><i>141</i>&nbsp;    }</b>
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;    /**
+<i>144</i>&nbsp;     * Skips an existing task for a user in a flat.
+<i>145</i>&nbsp;     *
+<i>146</i>&nbsp;     * @param flatId id of the flat
+<i>147</i>&nbsp;     * @param taskId id of the task
+<i>148</i>&nbsp;     * @param userId if of the user that skipped the task
+<i>149</i>&nbsp;     */
+<i>150</i>&nbsp;    @POST
+<i>151</i>&nbsp;    @Timed
+<i>152</i>&nbsp;    @Path(TASK_UNCOMPLETE)
+<i>153</i>&nbsp;    @ApiOperation(value = &quot;Skips a task by id&quot;)
+<i>154</i>&nbsp;    public void skipTask(@PathParam(FLAT_ID) LongParam flatId, @PathParam(TASK_ID) LongParam taskId, UserId userId) {
+<b class="fc"><i>155</i>&nbsp;        requireNonNull(userId, &quot;UserId is required&quot;);</b>
+<b class="fc"><i>156</i>&nbsp;        LOG.info(&quot;Skip task for flat:{}, task:{}&quot;, flatId.get(), taskId.get());</b>
+<b class="fc"><i>157</i>&nbsp;        taskService.skip(flatId.get(), taskId.get(), userId.getUserId());</b>
+<b class="fc"><i>158</i>&nbsp;    }</b>
+<i>159</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-14 20:59</div>
+</div>
+</body>
+</html>

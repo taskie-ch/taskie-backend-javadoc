@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TaskCreate</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.taskie.api</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TaskCreate (com.taskie.api)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TaskCreate</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (27/ 27)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TaskCreate$Access4JacksonSerializer4c301ecf</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (27/ 27)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.taskie.api;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.fasterxml.jackson.annotation.JsonCreator;
+<i>4</i>&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+<i>5</i>&nbsp;import com.google.common.base.MoreObjects;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import javax.annotation.concurrent.Immutable;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;import java.util.Objects;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * JSON API definition of data required to create a task.
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;@Immutable
+<i>15</i>&nbsp;public final class TaskCreate {
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    private final String title;
+<i>18</i>&nbsp;    private final String frequency;
+<i>19</i>&nbsp;    private final String start;
+<i>20</i>&nbsp;    private final int effort;
+<i>21</i>&nbsp;    private final List&lt;String&gt; userIds;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @JsonCreator
+<i>24</i>&nbsp;    public TaskCreate(@JsonProperty(&quot;title&quot;) String title,
+<i>25</i>&nbsp;                      @JsonProperty(&quot;frequency&quot;) String frequency,
+<i>26</i>&nbsp;                      @JsonProperty(&quot;start&quot;) String start,
+<i>27</i>&nbsp;                      @JsonProperty(&quot;effort&quot;) int effort,
+<b class="fc"><i>28</i>&nbsp;                      @JsonProperty(&quot;usersRotation&quot;) List&lt;String&gt; userIds) {</b>
+<b class="fc"><i>29</i>&nbsp;        this.title = title;</b>
+<b class="fc"><i>30</i>&nbsp;        this.frequency = frequency;</b>
+<b class="fc"><i>31</i>&nbsp;        this.start = start;</b>
+<b class="fc"><i>32</i>&nbsp;        this.effort = effort;</b>
+<b class="fc"><i>33</i>&nbsp;        this.userIds = userIds;</b>
+<b class="fc"><i>34</i>&nbsp;    }</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @JsonProperty(&quot;title&quot;)
+<i>37</i>&nbsp;    public String getTitle() {
+<b class="fc"><i>38</i>&nbsp;        return title;</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    @JsonProperty(&quot;frequency&quot;)
+<i>42</i>&nbsp;    public String getFrequency() {
+<b class="fc"><i>43</i>&nbsp;        return frequency;</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    @JsonProperty(&quot;start&quot;)
+<i>47</i>&nbsp;    public String getStart() {
+<b class="fc"><i>48</i>&nbsp;        return start;</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    @JsonProperty(&quot;effort&quot;)
+<i>52</i>&nbsp;    public int getEffort() {
+<b class="fc"><i>53</i>&nbsp;        return effort;</b>
+<i>54</i>&nbsp;    }
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    @JsonProperty(&quot;usersRotation&quot;)
+<i>57</i>&nbsp;    public List&lt;String&gt; getUserIds() {
+<b class="fc"><i>58</i>&nbsp;        return userIds;</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    @Override
+<i>62</i>&nbsp;    public boolean equals(Object o) {
+<b class="fc"><i>63</i>&nbsp;        if (!(o instanceof TaskCreate)) return false;</b>
+<b class="fc"><i>64</i>&nbsp;        TaskCreate that = (TaskCreate) o;</b>
+<b class="fc"><i>65</i>&nbsp;        return effort == that.effort &amp;&amp;</b>
+<b class="fc"><i>66</i>&nbsp;                Objects.equals(title, that.title) &amp;&amp;</b>
+<b class="fc"><i>67</i>&nbsp;                Objects.equals(frequency, that.frequency) &amp;&amp;</b>
+<b class="fc"><i>68</i>&nbsp;                Objects.equals(start, that.start) &amp;&amp;</b>
+<b class="fc"><i>69</i>&nbsp;                Objects.equals(userIds, that.userIds);</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    @Override
+<i>73</i>&nbsp;    public int hashCode() {
+<b class="fc"><i>74</i>&nbsp;        return Objects.hash(title, frequency, start, effort, userIds);</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    @Override
+<i>78</i>&nbsp;    public String toString() {
+<b class="fc"><i>79</i>&nbsp;        return MoreObjects.toStringHelper(this)</b>
+<b class="fc"><i>80</i>&nbsp;                .add(&quot;title&quot;, title)</b>
+<b class="fc"><i>81</i>&nbsp;                .add(&quot;frequency&quot;, frequency)</b>
+<b class="fc"><i>82</i>&nbsp;                .add(&quot;start&quot;, start)</b>
+<b class="fc"><i>83</i>&nbsp;                .add(&quot;effort&quot;, effort)</b>
+<b class="fc"><i>84</i>&nbsp;                .add(&quot;userIds&quot;, userIds)</b>
+<b class="fc"><i>85</i>&nbsp;                .toString();</b>
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-14 20:59</div>
+</div>
+</body>
+</html>

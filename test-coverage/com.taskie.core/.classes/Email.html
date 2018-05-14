@@ -1,0 +1,147 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Email</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.taskie.core</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Email (com.taskie.core)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Email</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.7%
+  </span>
+  <span class="absValue">
+    (11/ 12)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Email$$DynamicSubclass</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.7%
+  </span>
+  <span class="absValue">
+    (11/ 12)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.taskie.core;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.base.MoreObjects;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.Objects;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import static java.util.Objects.requireNonNull;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Email address representation
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class Email {
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    private final String emailAddress;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * Constructs an email address
+<i>18</i>&nbsp;     *
+<i>19</i>&nbsp;     * @param emailAddress valid email address string
+<i>20</i>&nbsp;     */
+<b class="fc"><i>21</i>&nbsp;    public Email(String emailAddress) {</b>
+<b class="fc"><i>22</i>&nbsp;        this.emailAddress = validate(emailAddress);</b>
+<b class="fc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    private static String validate(String emailAddress) {
+<b class="fc"><i>26</i>&nbsp;        return requireNonNull(emailAddress, &quot;Address is required&quot;);</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * @return the email address
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    public String getEmailAddress() {
+<b class="nc"><i>33</i>&nbsp;        return emailAddress;</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @Override
+<i>37</i>&nbsp;    public final boolean equals(Object o) {
+<b class="fc"><i>38</i>&nbsp;        if (!(o instanceof Email)) return false;</b>
+<b class="fc"><i>39</i>&nbsp;        Email email = (Email) o;</b>
+<b class="fc"><i>40</i>&nbsp;        return Objects.equals(emailAddress, email.emailAddress);</b>
+<i>41</i>&nbsp;    }
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    @Override
+<i>44</i>&nbsp;    public final int hashCode() {
+<b class="fc"><i>45</i>&nbsp;        return Objects.hash(emailAddress);</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    @Override
+<i>49</i>&nbsp;    public String toString() {
+<b class="fc"><i>50</i>&nbsp;        return MoreObjects.toStringHelper(this)</b>
+<b class="fc"><i>51</i>&nbsp;                .add(&quot;emailAddress&quot;, emailAddress)</b>
+<b class="fc"><i>52</i>&nbsp;                .toString();</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-14 20:59</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,175 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Rotation</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.taskie.core</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Rotation (com.taskie.core)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Rotation</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (6/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    52.2%
+  </span>
+  <span class="absValue">
+    (12/ 23)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Rotation$$DynamicSubclass</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (6/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    52.2%
+  </span>
+  <span class="absValue">
+    (12/ 23)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.taskie.core;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.base.MoreObjects;
+<i>4</i>&nbsp;import org.slf4j.Logger;
+<i>5</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.*;
+<i>8</i>&nbsp;import java.util.function.Consumer;
+<i>9</i>&nbsp;import java.util.stream.Collectors;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * Rotation sequence set for individual tasks
+<i>13</i>&nbsp; */
+<b class="fc"><i>14</i>&nbsp;public class Rotation {</b>
+<i>15</i>&nbsp;
+<b class="fc"><i>16</i>&nbsp;    private static final Logger LOG = LoggerFactory.getLogger(Rotation.class);</b>
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;    private final Queue&lt;Flatmate&gt; rotation = new LinkedList&lt;&gt;();</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * Rotates the current user to the end.
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    synchronized void update() {
+<b class="nc"><i>24</i>&nbsp;        Flatmate current = rotation.remove();</b>
+<b class="nc"><i>25</i>&nbsp;        LOG.info(&quot;Rotating {} to the end&quot;, current);</b>
+<b class="nc"><i>26</i>&nbsp;        rotation.add(current);</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;        // TODO skip if user is absent
+<b class="nc"><i>29</i>&nbsp;    }</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * Extends the rotation with users. Ordering is preserved.
+<i>33</i>&nbsp;     *
+<i>34</i>&nbsp;     * @param users users to add to the rotation
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    synchronized void addAll(Collection&lt;Flatmate&gt; users) {
+<b class="fc"><i>37</i>&nbsp;        rotation.addAll(users);</b>
+<b class="fc"><i>38</i>&nbsp;    }</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * Applies an action to a user in the rotation, if present.
+<i>42</i>&nbsp;     *
+<i>43</i>&nbsp;     * @param id       id of the user
+<i>44</i>&nbsp;     * @param consumer action to be applied
+<i>45</i>&nbsp;     */
+<i>46</i>&nbsp;    void applyToUser(String id, Consumer&lt;Flatmate&gt; consumer) {
+<b class="nc"><i>47</i>&nbsp;        rotation.stream().filter(user -&gt; user.getId().equals(id))</b>
+<b class="nc"><i>48</i>&nbsp;                .reduce((flatmate, flatmate2) -&gt; flatmate)</b>
+<b class="nc"><i>49</i>&nbsp;                .ifPresent(consumer);</b>
+<b class="nc"><i>50</i>&nbsp;    }</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * Collects all ids of users in the rotation in the right order.
+<i>55</i>&nbsp;     *
+<i>56</i>&nbsp;     * @return list of user ids
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    public List&lt;String&gt; getRotationUserIds() {
+<b class="nc"><i>59</i>&nbsp;        return rotation.stream()</b>
+<b class="nc"><i>60</i>&nbsp;                .map(Flatmate::getId)</b>
+<b class="nc"><i>61</i>&nbsp;                .collect(Collectors.toList());</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    @Override
+<i>65</i>&nbsp;    public final boolean equals(Object o) {
+<b class="fc"><i>66</i>&nbsp;        if (!(o instanceof Rotation)) return false;</b>
+<b class="fc"><i>67</i>&nbsp;        Rotation rotation1 = (Rotation) o;</b>
+<b class="fc"><i>68</i>&nbsp;        return Objects.equals(rotation, rotation1.rotation);</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    @Override
+<i>72</i>&nbsp;    public final int hashCode() {
+<b class="fc"><i>73</i>&nbsp;        return Objects.hash(rotation);</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    @Override
+<i>77</i>&nbsp;    public String toString() {
+<b class="fc"><i>78</i>&nbsp;        return MoreObjects.toStringHelper(this)</b>
+<b class="fc"><i>79</i>&nbsp;                .add(&quot;rotation&quot;, rotation)</b>
+<b class="fc"><i>80</i>&nbsp;                .toString();</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-14 20:59</div>
+</div>
+</body>
+</html>

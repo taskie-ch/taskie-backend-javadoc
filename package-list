@@ -1,0 +1,9 @@
+com.taskie
+com.taskie.api
+com.taskie.auth
+com.taskie.core
+com.taskie.db
+com.taskie.health
+com.taskie.resources
+com.taskie.resources.error
+io.dropwizard.auth
